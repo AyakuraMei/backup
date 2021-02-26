@@ -1,0 +1,37 @@
+.page-login {
+    margin: 0 auto;
+    padding: 10%;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+.username {
+    margin: 0 0 5px;
+    justify-content: center;
+}
+
+.password {
+    margin: 0 0 5px;
+    justify-content: center;
+}
+
+.Login {
+    float: left;
+}
+
+.Register {
+    float: right;
+}
+
+.ant-card-meta-description {
+    position: relative;
+    left: 50%;
+    border-radius: 20px;
+}
+
+body {
+    /* 如果要更改背景，需要加 !important */
+    background-color: aqua !important;
+}
