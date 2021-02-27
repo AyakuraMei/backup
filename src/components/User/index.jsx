@@ -25,7 +25,7 @@ export default class User extends Component {
         return (
             <div>
                 <Card style={{width: '100%'}} title='Username'>
-                    <p>uploaded Image:  {this.state.uploadedImage}</p>
+                    <p>Uploaded Image:  {this.state.uploadedImage}</p>
                     <p>Accuracy:  {this.state.accuracy}</p>
                 </Card>
             </div>

@@ -26,7 +26,7 @@ export default class Home extends Component {
         <Admin>
           {
             secondRoutes.map((item) => {
-              {/* 将 user 信息传送到每个子组件 */}
+              {/* 使用 props 形式将 user 信息传送到每个子组件 */}
               return <Route key={item.path} path={item.path} component={item.component} {...this.state}></Route>
             })
           }

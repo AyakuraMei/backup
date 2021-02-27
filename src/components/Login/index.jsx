@@ -18,6 +18,7 @@ export default class Login extends Component {
             {
                 username: this.state.user,
                 password: this.state.password,
+                isRegister: 0,
             }
         ).then((response) => {
             // 收到 res 后确定是否注册，如果已经注册，那么跳转到home，使用 this.state.description 来提示用户
@@ -28,7 +29,29 @@ export default class Login extends Component {
             // 否则跳出提醒用户注册
             this.state.description = 'Register A User'
         }).then((error) => {
-            alert(error)
+            console.log(error)
+        })
+    }
+
+    sendRegisterMessage = () => {
+        const { Username: { state: { value: user } } } = this
+        const { Password: { state: { value: pw } } } = this
+        this.setState({ username: user, password: pw })
+        axios.post('/login',
+            {
+                username: this.state.username,
+                password: this.state.password,
+                isRegister: 1,
+            }
+        ).then((response) => {
+            // 收到注册信息后，查看是否存在，如果存在那么进行提示
+            this.state.description = "User already exist."
+            // 如果不存在则进行注册后，那么跳转到 home 界面
+            // 如果成功那么就统一 user 信息
+            this.token = PubSub.publish(USERINFO, { username: this.state.user, password: this.state.password })
+            this.history.push('/home')
+        }).then((error) => {
+                console.log(error)
         })
     }
 
@@ -49,7 +72,7 @@ export default class Login extends Component {
                     <Input ref={c => { this.Username = c }} className="username" size="middle" placeholder="username" prefix={<UserOutlined />}></Input>
                     <Input ref={c => this.Password = c} className="password" size="middle" placeholder="password" type="password" prefix={<KeyOutlined />}></Input>
                     <Button className="Login" value="Login" onClick={this.sendMessage} size="middle">Login </Button>
-                    <Button className="Register" value="Register" onClick={this.sendMessage} size="middle">Register</Button>
+                    <Button className="Register" value="Register" onClick={this.sendRegisterMessage} size="middle">Register</Button>
                     <Meta className="Meta" description={this.state.description}></Meta>
                 </Card>
             </div>
