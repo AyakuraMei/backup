@@ -1,3 +1,4 @@
+from django import http
 from django.db import models
 from django.db.models.fields import json
 from django.shortcuts import render
@@ -34,7 +35,26 @@ def return_user_information(request):
     accuracy = isCovid / count
     # 返回一个httpResponse，里面存储了 检查过的文件总数 以及 患病率
      
+def user_is_exist(request):
+    data = json.load(request.body)
+    # 读取传送过来的 username 以及 password
+    to_deal = {}
+    username = to_deal['username']
+    password = to_deal['password']
+    # 辨明是注册还是登录(1: 注册, 0: 登录)
+    is_register = to_deal['isRegister']
+    isExist = User.objects.filter(user=username)
+    # todo
+    if isExist.exists():
+        # 如果存在，那么返回对应的状态码，让前端进行跳转
+        pass
+    else:
+        # 如果不存在，则返回提示信息让用户进行注册
+        user_register(username, password)
+        pass
 
+def user_register(username, password):
+    User.object.create(name=username, password=password)
 
 # todo
 def analysis_pic():
