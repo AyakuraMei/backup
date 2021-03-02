@@ -15,10 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from django.urls import include
+# from django.urls import include
+from CovidDetect import views as detect_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('home/', include('CovidDetect', namespace='covidserver')),
-    path('login/', include('CovidDetect', namespace='covidserver')),
+    path('login/', detect_views.check_login)
 ]

@@ -3,7 +3,7 @@ import uuid
 
 # Create your models here.
 
-class User(object):
+class User(models.Model):
     # 存储用户信息的表单
     name = models.CharField(max_length=16)
     password = models.CharField(max_length=16)
@@ -11,7 +11,7 @@ class User(object):
     uuid = models.UUIDField(primary_key=True, default=uuid.uuid1, editable=False, null=False)
 
 # 存储用户上传的图片
-class Picture(object):
+class Picture(models.Model):
     pic_name = models.TextField()
     pic = models.FileField()
     # 一个用户对应多个图片
