@@ -33,5 +33,5 @@
 
 body {
     /* 如果要更改背景，需要加 !important */
-    background-color: aqua !important;
+    background-color: rgba(0, 255, 255, 0.123) !important;
 }

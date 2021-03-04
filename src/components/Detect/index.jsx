@@ -5,11 +5,21 @@ import axios from 'axios'
 
 export default class Detect extends Component {
     state = {
-        username: this.props.username,
-        password: this.props.password,
+        username: '',
+        password: '',
         isCovid: '',
         uploadedInfo: '',
     }
+
+    // componentDidMount(){
+    //     // this.token = PubSub.subscribe('ayakuramei', (_, data) => {
+    //         this.setState({username: data.username, password: data.password})
+    //     })
+    // }
+
+    // componentWillUnmount(){
+    //     PubSub.unsubscribe(this.token)
+    // }
 
     render() {
         const { Dragger } = Upload
@@ -54,6 +64,7 @@ export default class Detect extends Component {
                         <p>is Covid:{this.state.isCovid}</p>
                     </Card>
                 </div> */}
+                <p>{this.state.username} - {this.state.password}</p>
             </div>
         )
     }

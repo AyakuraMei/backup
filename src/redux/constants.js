@@ -1,0 +1,3 @@
+// 登录界面的操作 
+export const CREATE_LOGIN_POST = 'CREATE_LOGIN_POST'
+export const CREATE_REGISTER_POST = 'CREATE_REGISTER_POST'
