@@ -11,6 +11,8 @@ import json
 def check_login(request):
     res = {
         'success': True,
+        'status': 1,
+        'Description': 'wo ye shi long',
     }
     print(request.body)
     return HttpResponse(json.dumps(res), content_type="application/json")
@@ -56,26 +58,36 @@ def user_is_exist(request):
     is_register = data['isRegister']
     isExist = User.objects.filter(user=username)
     # todo
+    '''
+    @var res
+        {
+            'Description': 描述出错的原因,
+            'status': 是否进行跳转,
+        }
+    '''
     if isExist.exists():
         # 如果用户存在，但是访客想要注册，那么提示访客用户存在
         if is_register == 1:
             res = {
                 'Description': 'This user already register.',
+                'status': False,
             }
             return HttpResponse(json.dumps(res), content_type="application/json")
         # 如果用户存在，但是用户想要登录
         elif is_register == 0:
             # 需要先检查用户输入的信息是否正确
+            # todo
             # 如果用户输入的信息跟数据库中的用户 用户密码相对应成功，那么就返回成功状态进行跳转
             if isExist.filter(password=password).exists():
                 res = {
-                    'status': True
+                    'status': True,
                 }
                 return HttpResponse(json.dumps(res), content_type="application/json")
             # 如果不相符合，那么返回描述密码错误
             else:
                 res = {
-                    'Description': 'Password Error.'
+                    'Description': 'Password Error.',
+                    'status': False,
                 }
                 return HttpResponse(json.dumps(res), content_type="application/json")
     # 如果查询的用户名不存在
@@ -85,12 +97,14 @@ def user_is_exist(request):
             user_register(username, password)
             res = {
                 'Description': 'Register Successfully.',
+                'status': True,
             }
             return HttpResponse(json.dumps(res), content_type="application/json")
         # 如果用户想要的是登录，但是用户不存在，那么提醒该用户不存在
         elif is_register == 0:
             res = {
                 'Description': 'User has already registered.',
+                'status': False,
             }
             return HttpResponse(json.dumps(res), content_type="application/json")
 
