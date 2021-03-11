@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 import { Button, Input, Card } from 'antd'
 import { UserOutlined, KeyOutlined } from '@ant-design/icons'
 import { loginPost, registerPost } from '../../redux/actions/loginAction'
@@ -8,16 +8,11 @@ import { connect } from 'react-redux'
 // import PubSub from 'pubsub-js'
 // import { USERINFO } from '../pubsub'
 import './index.css'
+import store from '../../redux/store'
 
 class Login extends Component {
 
     // username 和 password 是用来记录当前发送的用户名和密码
-    state = {
-        hasRegister: null,
-        description: '',
-        username: '',
-        password: '',
-    }
 
     /* res 格式
                 response.data:
@@ -26,10 +21,10 @@ class Login extends Component {
                     'status': 是否进行跳转,
                 }
     */
+    // 发送 login 的信息 
     sendMessage = () => {
         const { Username: { state: { value: user } } } = this
         const { Password: { state: { value: pw } } } = this
-        this.setState({ username: user, password: pw }, () => { })
         // todo: 在后端写入 /login 发送的 request 请求处理
         // axios.post('http://localhost:8000/login/',
         //     {
@@ -52,7 +47,8 @@ class Login extends Component {
         //     console.log(error)
         // })
         this.props.loginUser(user, pw)
-        console.log('1')
+        console.log(this.props.response, this.props.user, this.props.pw)
+        console.log('getState', store.getState())
     }
 
     sendRegisterMessage = () => {
@@ -79,10 +75,12 @@ class Login extends Component {
         // }).catch((error) => {
         //     console.log('posted', error)
         // }))
+        this.props.registerUser(user, pw)
     }
 
     render() {
         const { Meta } = Card
+        console.log(this.props.user, this.props.pw)
         return (
             <div className="page-login" >
                 <Card className="LoginPadding">
@@ -90,7 +88,7 @@ class Login extends Component {
                     <Input ref={c => this.Password = c} className="password" size="middle" placeholder="password" type="password" prefix={<KeyOutlined />}></Input>
                     <Button className="Login" value="Login" onClick={this.sendMessage} size="middle">Login </Button>
                     <Button className="Register" value="Register" onClick={this.sendRegisterMessage} size="middle">Register</Button>
-                    <Meta className="Meta" description={this.state.description}></Meta>
+                    <Meta className="Meta" description={this.props.description}></Meta>
                 </Card>
             </div>
         )
@@ -98,13 +96,20 @@ class Login extends Component {
 }
 
 // 没有这玩意会报错
-function mapDispatchToProps(dispatch){
-    return {
-        loginUser: loginPost,
-        registerUser: registerPost,
-    }
-}
+// function mapDispatchToProps(dispatch) {
+//     return {
+//         loginUser: loginPost,
+//         registerUser: registerPost,
+//     }
+// }
 
 export default connect((state) => ({
-    login: state.login,
-}), mapDispatchToProps)(Login)
+    response: state.login.response,
+    user: state.login.username,
+    pw: state.login.password,
+    description: state.login.description,
+    response: state.login.response
+}), {
+    loginUser: loginPost,
+    registerUser: registerPost,
+})(Login)

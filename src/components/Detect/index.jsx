@@ -2,11 +2,11 @@ import React, { Component } from 'react'
 import { Upload, message, Card } from 'antd'
 import { InboxOutlined } from '@ant-design/icons'
 import axios from 'axios'
+import { connect } from 'react-redux'
+import store from '../../redux/store'
 
-export default class Detect extends Component {
+export class Detect extends Component {
     state = {
-        username: '',
-        password: '',
         isCovid: '',
         uploadedInfo: '',
     }
@@ -27,13 +27,8 @@ export default class Detect extends Component {
             name: '',
             multiple: false,
             // 根据 username 来确定上传的地址
-            action: "/home/Detect",
+            action: "http://localhost:8000/home/Detect/",
             accept: "image/png, image/jpeg",
-            data: {
-                // 存储在特定文件夹的时候需要用到，通过 request 获得
-                username: this.state.username,
-                password: this.state.password,
-            },
             onChange(info) {
                 const { status } = info.file
                 // 根据不同的上传状态确定信息
@@ -52,7 +47,12 @@ export default class Detect extends Component {
 
         return (
             <div>
-                <Dragger {...uploadProps}>
+                <Dragger {...uploadProps}
+                    data={file => ({
+                        username: this.props.user,
+                        password: this.props.pw,
+                        photo: file,
+                    })}>
                     <p className="ant-upload-drag-icon">
                         <InboxOutlined />
                     </p>
@@ -64,8 +64,13 @@ export default class Detect extends Component {
                         <p>is Covid:{this.state.isCovid}</p>
                     </Card>
                 </div> */}
-                <p>{this.state.username} - {this.state.password}</p>
+                <p>{this.props.user} - {this.props.pw}</p>
             </div>
         )
     }
 }
+
+export default connect((state) => ({
+    user: state.login.username,
+    pw: state.login.password,
+}))(Detect)

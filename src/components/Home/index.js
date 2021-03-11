@@ -5,9 +5,11 @@ import { Route, Redirect } from 'react-router-dom'
 // import PubSub from 'pubsub-js'
 // import { USERINFO } from '../pubsub'
 import Admin from '../Admin'
+import { connect } from 'react-redux'
+import store from '../../redux/store'
 
 // second routes
-export default class Home extends Component {
+export class Home extends Component {
   state = {
     username: '',
     password: '',
@@ -26,15 +28,15 @@ export default class Home extends Component {
   //   PubSub.unsubscribe(this.token)
   // }
 
-
   render() {
+    console.log(this.props)
     return (
       <div className="App">
         <Admin>
           {
             secondRoutes.map((item) => {
               {/* 使用 props 形式将 user 信息传送到每个子组件 */ }
-              return <Route key={item.path} path={item.path} component={item.component} {...this.state}></Route>
+              return <Route key={item.path} path={item.path} component={item.component}></Route>
             })
           }
           <Redirect from="/home" to="/home/Detect" exact></Redirect>
@@ -43,3 +45,7 @@ export default class Home extends Component {
     );
   }
 }
+
+export default connect((state) => ({
+  status: { user: state.login.username, pw: state.login.password }
+}))(Home)

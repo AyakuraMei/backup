@@ -2,26 +2,26 @@ import React, { Component } from 'react'
 import { List, Avatar, Space } from 'antd';
 import { MessageOutlined, LikeOutlined, StarOutlined } from '@ant-design/icons';
 import axios from 'axios';
+import { connect } from 'react-redux';
 
-export default class MyHistory extends Component {
+export class MyHistory extends Component {
     state = {
-        username: this.props.username,
-        password: this.props.password,
         // Data: { filename：string, img: image, comment: Comment, isCovid: false }
         // 接受发回来的数据包
         listData: [{ filename: 'string', img: 'image', comment: 'Comment', isCovid: 'No', date: '20xx-xx-xx' }],
     }
 
-    componentDidMount(){
-        axios.post('/MyHistory', {
-            username: this.props.username,
-            password: this.props.password,
-        }).then((response) => {
-            // 获取 response 中返回的数组，赋值给 listData
-        }).then((error) => {
-            console.log(error)
-        })
-    }
+    // todo: 加到 reducer 中
+    // componentDidMount(){
+    //     axios.post('/MyHistory', {
+    //         username: this.props.user,
+    //         password: this.props.pw,
+    //     }).then((response) => {
+    //         // 获取 response 中返回的数组，赋值给 listData
+    //     }).then((error) => {
+    //         console.log(error)
+    //     })
+    // }
 
     render() {
         return (
@@ -62,3 +62,8 @@ export default class MyHistory extends Component {
         )
     }
 }
+
+export default connect((state) => ({
+    user: state.login.username,
+    pw: state.login.pw,
+}))(MyHistory)

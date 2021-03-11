@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { Route, Redirect } from 'react-router-dom'
 import { routes } from '../../Router'
+import { connect } from 'react-redux'
+
 export default class Auth extends Component {
     render() {
         // 获取用户输入的地址
