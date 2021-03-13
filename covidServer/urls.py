@@ -20,5 +20,6 @@ from CovidDetect import views as detect_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('login/', detect_views.check_login)
+    path('login/', detect_views.check_login),
+    path('home/Detect/', detect_views.upload_covid_picture)
 ]

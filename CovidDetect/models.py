@@ -12,8 +12,12 @@ class User(models.Model):
 
 # 存储用户上传的图片
 class Picture(models.Model):
+    # pic 的 uuid ，根据传输过来的 uid 确定，默认为 ''
+    pic_uuid = models.CharField(primary_key=True, default='', editable=False, null=False, max_length=128)
+    # 文件名
     pic_name = models.TextField()
-    pic = models.FileField()
+    # 文件名字
+    pic = models.ImageField()
     # 一个用户对应多个图片
     user = models.ForeignKey(User, on_delete=models.CASCADE, default='')
     # 判断的结果: Yes / No
